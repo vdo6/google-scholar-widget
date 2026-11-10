@@ -2,6 +2,46 @@
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Google Scholar — Phuc Do</title>
 <style>
 :root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#1b1b1b;color:#f7f7f7;font:16px Arial,Helvetica,sans-serif}.scholar{width:100%;max-width:940px;margin:0 auto;padding:16px 18px 30px;background:linear-gradient(130deg,#222,#151515)}h2{font-weight:300;font-size:29px;margin:0 0 22px}.metrics{display:flex;gap:40px;margin-bottom:15px}.metric-label{display:block;font-size:15px;margin-bottom:16px}.metric-value{display:block;font-size:29px;font-weight:300}.source{font-size:14px;color:#ccc;margin:10px 0 26px}.source a{color:#f13728}.scroll{overflow-x:auto;max-width:100%}svg{display:block;width:100%;height:auto;min-width:570px}svg text{font-family:Arial,Helvetica,sans-serif;fill:#f8f8f8}svg .gridline{stroke:#777;stroke-opacity:.52;stroke-width:1}svg .bar{fill:#d00000}svg .bar:hover{fill:#ff332a}.note{color:#bcbcbc;font-size:13px;margin:12px 0 0}.error{color:#ffc0b9}.sr-only{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}
+
+/* Compact Google Scholar header */
+
+.scholar h2,
+.pd-scholar h2 {
+  font-size: 18px;
+  line-height: 1.15;
+  margin: 0 0 8px;
+}
+
+.scholar .metrics,
+.pd-scholar .metrics {
+  gap: 12px;
+  margin: 6px 0 10px;
+}
+
+.scholar .metric,
+.pd-scholar .metric {
+  padding: 5px 8px;
+}
+
+.scholar .label,
+.pd-scholar .label {
+  font-size: 11px;
+  line-height: 1.1;
+}
+
+.scholar .value,
+.pd-scholar .value {
+  font-size: 21px;
+  line-height: 1.1;
+  margin-top: 3px;
+}
+
+.scholar .status,
+.pd-scholar .status {
+  font-size: 10px;
+  line-height: 1.2;
+  margin: 5px 0 8px;
+}
 </style></head>
 <body><section class="scholar" aria-labelledby="title"><h2 id="title">Google Scholar</h2><div class="metrics"><div><span class="metric-label">Citations</span><span class="metric-value" id="citations">—</span></div><div><span class="metric-label">h-index</span><span class="metric-value" id="hindex">—</span></div><div><span class="metric-label">i10-index</span><span class="metric-value" id="i10index">—</span></div></div><p class="source">According to <a href="https://scholar.google.com/citations?user=Xa97hl4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a> · <span id="updated">Awaiting first successful update</span></p><div class="scroll"><svg id="chart" role="img" aria-label="Annual citations chart" viewBox="0 0 880 310" preserveAspectRatio="xMidYMid meet"><text x="20" y="90" font-size="16">Annual citation data unavailable until first update</text></svg></div><p class="note" id="status">The chart uses the last successfully retrieved values, not live requests to Google Scholar.</p></section>
 <script>
