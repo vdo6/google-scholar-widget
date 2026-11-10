@@ -29,8 +29,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Update Google Scholar data
-        run: python update_scholar.py
+    - name: Update Google Scholar data
+      continue-on-error: true
+      timeout-minutes: 2
+      run: python -u update_scholar.py
 
       - name: Commit updated statistics
         run: |
