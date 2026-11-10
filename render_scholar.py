@@ -46,22 +46,24 @@ WHITE = "#ffffff"
 GRAY = "#bbbbbb"
 GRID = "#555555"
 
-# Figure
+
+# Figure - compact horizontal layout
 fig = plt.figure(
-    figsize=(13, 7),
+    figsize=(13, 6),
     facecolor=BG
 )
 
-# Main title
+# Title on the left, vertically centered
 fig.text(
-    0.055, 0.94,
+    0.055, 0.84,
     "Google Scholar",
     color=WHITE,
-    fontsize=26,
-    fontweight="light"
+    fontsize=24,
+    fontweight="light",
+    va="center"
 )
 
-# Metrics
+# Metrics on the right of the title
 metrics = [
     ("Citations", f"{citations:,}"),
     ("h-index", str(hindex)),
@@ -69,28 +71,31 @@ metrics = [
 ]
 
 for x, (label, value) in zip(
-    [0.055, 0.26, 0.45], metrics
+    [0.34, 0.49, 0.63], metrics
 ):
     fig.text(
-        x, 0.855, label,
-        color=GRAY, fontsize=13
+        x, 0.91, label,
+        color=GRAY,
+        fontsize=12
     )
     fig.text(
-        x, 0.795, value,
-        color=WHITE, fontsize=25
+        x, 0.83, value,
+        color=WHITE,
+        fontsize=23
     )
 
-# Source information
+# Source below metrics
 fig.text(
-    0.055, 0.72,
+    0.34, 0.76,
     f"According to Google Scholar  |  Updated {updated}",
     color=GRAY,
-    fontsize=11
+    fontsize=10
 )
 
-# Chart area
-ax = fig.add_axes([0.075, 0.16, 0.88, 0.48])
+# Chart - full width, closer to header
+ax = fig.add_axes([0.075, 0.14, 0.88, 0.53])
 ax.set_facecolor(BG)
+
 
 x = np.arange(len(years))
 
