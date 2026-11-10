@@ -13,7 +13,7 @@ permissions:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -31,7 +31,7 @@ jobs:
 
       - name: Update Google Scholar data
         continue-on-error: true
-        timeout-minutes: 5
+        timeout-minutes: 2
         run: python -u update_scholar.py
 
       - name: Commit updated data
