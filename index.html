@@ -5,122 +5,74 @@
 
 /* Compact Google Scholar header */
 
-<div class="scholar-header">
+<div style="
+  display:flex !important;
+  flex-direction:row !important;
+  justify-content:space-between !important;
+  align-items:center !important;
+  flex-wrap:wrap;
+  gap:15px;
+  width:100%;
+  box-sizing:border-box;
+  background:#202020;
+  color:white;
+  padding:8px 12px;
+  font-family:Arial,sans-serif;">
 
-  <div class="scholar-title">
+  <!-- LEFT: Title -->
+  <div style="
+    font-size:23px;
+    font-weight:400;
+    line-height:1.2;
+    white-space:nowrap;">
     Google Scholar
   </div>
 
-  <div class="scholar-info">
+  <!-- RIGHT: Statistics -->
+  <div style="
+    display:flex !important;
+    flex-direction:column !important;
+    gap:8px;
+    margin-left:auto;">
 
-    <div class="scholar-metrics">
+    <div style="
+      display:flex !important;
+      flex-direction:row !important;
+      gap:22px;">
 
-      <div class="scholar-item">
-        <span class="scholar-label">Citations</span>
-        <span class="scholar-value" id="pd-citations">—</span>
+      <div>
+        <div style="font-size:12px;">Citations</div>
+        <div id="pd-citations"
+             style="font-size:24px;margin-top:5px;">
+          —
+        </div>
       </div>
 
-      <div class="scholar-item">
-        <span class="scholar-label">h-index</span>
-        <span class="scholar-value" id="pd-hindex">—</span>
+      <div>
+        <div style="font-size:12px;">h-index</div>
+        <div id="pd-hindex"
+             style="font-size:24px;margin-top:5px;">
+          —
+        </div>
       </div>
 
-      <div class="scholar-item">
-        <span class="scholar-label">i10-index</span>
-        <span class="scholar-value" id="pd-i10index">—</span>
+      <div>
+        <div style="font-size:12px;">i10-index</div>
+        <div id="pd-i10index"
+             style="font-size:24px;margin-top:5px;">
+          —
+        </div>
       </div>
 
     </div>
 
-    <div class="scholar-source" id="pd-updated">
+    <div id="pd-updated"
+         style="font-size:11px;white-space:nowrap;">
       According to Google Scholar
     </div>
 
   </div>
 </div>
-
-/* Compact horizontal Google Scholar header */
-
-.scholar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  background: #202020;
-  color: #ffffff;
-  padding: 10px 14px;
-  font-family: Arial, sans-serif;
-}
-
-.scholar-title {
-  font-size: 23px;
-  font-weight: 400;
-  line-height: 1.2;
-  white-space: nowrap;
-}
-
-.scholar-info {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  min-width: 0;
-}
-
-.scholar-metrics {
-  display: flex;
-  gap: 28px;
-}
-
-.scholar-item {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.scholar-label {
-  font-size: 12px;
-  line-height: 1.1;
-}
-
-.scholar-value {
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 1.1;
-}
-
-.scholar-source {
-  font-size: 11px;
-  line-height: 1.2;
-  white-space: nowrap;
-}
-
-.scholar-source a {
-  color: #ff0000;
-}
-
-/* Mobile display */
-@media (max-width: 600px) {
-  .scholar-header {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .scholar-title {
-    font-size: 20px;
-  }
-
-  .scholar-metrics {
-    gap: 20px;
-  }
-
-  .scholar-value {
-    font-size: 21px;
-  }
-
-  .scholar-source {
-    white-space: normal;
-  }
-}
 
 </style></head>
 <body><section class="scholar" aria-labelledby="title"><h2 id="title">Google Scholar</h2><div class="metrics"><div><span class="metric-label">Citations</span><span class="metric-value" id="citations">—</span></div><div><span class="metric-label">h-index</span><span class="metric-value" id="hindex">—</span></div><div><span class="metric-label">i10-index</span><span class="metric-value" id="i10index">—</span></div></div><p class="source">According to <a href="https://scholar.google.com/citations?user=Xa97hl4AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a> · <span id="updated">Awaiting first successful update</span></p><div class="scroll"><svg id="chart" role="img" aria-label="Annual citations chart" viewBox="0 0 880 310" preserveAspectRatio="xMidYMid meet"><text x="20" y="90" font-size="16">Annual citation data unavailable until first update</text></svg></div><p class="note" id="status">The chart uses the last successfully retrieved values, not live requests to Google Scholar.</p></section>
