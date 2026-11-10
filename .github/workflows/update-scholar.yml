@@ -34,11 +34,15 @@ jobs:
         timeout-minutes: 2
         run: python -u update_scholar.py
 
+      
+      - name: Generate Google Scholar image
+        run: python render_scholar.py
+
       - name: Commit updated data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scholar_data.json
+          git add scholar_data.json scholar.png
           if ! git diff --cached --quiet; then
             git commit -m "Update Scholar data"
             git push
