@@ -172,7 +172,7 @@ fig.savefig(
 
 fig.savefig(
     SMALL_OUTPUT,
-    dpi=100,
+    dpi=90,
     facecolor=BG,
     bbox_inches="tight",
     pad_inches=0.20
