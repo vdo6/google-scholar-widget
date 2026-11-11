@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent
 
 DATA = ROOT / "scholar_data.json"
 OUTPUT = ROOT / "scholar.png"
-
+SMALL_OUTPUT = ROOT / "scholar-small.png"
 SCHOLAR_ID = "Xa97hl4AAAAJ"
 
 # Read real statistics
@@ -170,6 +170,15 @@ fig.savefig(
     pad_inches=0.25
 )
 
+fig.savefig(
+    SMALL_OUTPUT,
+    dpi=60,
+    facecolor=BG,
+    bbox_inches="tight",
+    pad_inches=0.20
+)
+
 plt.close(fig)
 
 print(f"Image generated: {OUTPUT}")
+print(f"Small image generated: {SMALL_OUTPUT}")
