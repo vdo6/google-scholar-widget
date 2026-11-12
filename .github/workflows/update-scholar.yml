@@ -30,7 +30,6 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Update Google Scholar data
-        continue-on-error: true
         timeout-minutes: 4
         run: python -u update_scholar.py
 
