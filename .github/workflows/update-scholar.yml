@@ -29,19 +29,20 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-     - name: Update Google Scholar data
-       timeout-minutes: 6
-       run: |
-        for attempt in 1 2; do
-          echo "Attempt $attempt"
-          if python -u update_scholar.py; then
-             exit 0
-          fi
-          if [ "$attempt" -eq 1 ]; then
-             sleep 20
-          fi
-        done
-        exit 1      
+      - name: Update Google Scholar data
+        timeout-minutes: 8
+        run: |
+          for attempt in 1 2; do
+            echo "Google Scholar attempt $attempt"
+            if python -u update_scholar.py; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 1 ]; then
+              echo "Retrying in 30 seconds..."
+              sleep 30
+            fi
+          done
+          exit 1
       - name: Generate Google Scholar image
         run: python render_scholar.py
      
