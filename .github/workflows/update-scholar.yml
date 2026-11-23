@@ -3,6 +3,7 @@ name: Update Google Scholar statistics
 on:
   schedule:
     - cron: '25 5 * * *'
+    - cron: '47 14 * * *'
   workflow_dispatch:
 
 permissions:
