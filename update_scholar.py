@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 
 SCHOLAR_ID = "Xa97hl4AAAAJ"
 DEST = Path(__file__).parent / "scholar_data.json"
-TIMEOUT = 90
+TIMEOUT = 180
 
 
 def retrieve(queue):
