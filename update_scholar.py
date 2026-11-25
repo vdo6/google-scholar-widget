@@ -1,5 +1,6 @@
+
 #!/usr/bin/env python3
-"""Update Google Scholar statistics with a strict timeout."""
+"""Update Google Scholar statistics safely."""
 
 import json
 import os
@@ -10,7 +11,10 @@ from datetime import datetime, timezone
 
 SCHOLAR_ID = "Xa97hl4AAAAJ"
 DEST = Path(__file__).parent / "scholar_data.json"
-TIMEOUT = 180
+
+TIMEOUT = 240
+REQUEST_TIMEOUT = 30
+MAX_RETRIES = 2
 
 
 def retrieve(queue):
@@ -19,10 +23,16 @@ def retrieve(queue):
 
         from scholarly import scholarly
 
+        scholarly.set_timeout(REQUEST_TIMEOUT)
+        scholarly.set_retries(MAX_RETRIES)
+
         print("Searching author profile...", flush=True)
+
         author = scholarly.search_author_id(SCHOLAR_ID)
 
+        print("Author profile found.", flush=True)
         print("Retrieving citation statistics...", flush=True)
+
         author = scholarly.fill(
             author,
             sections=["indices", "counts"]
@@ -55,6 +65,7 @@ def retrieve(queue):
 
             if not 1900 <= year <= current_year:
                 raise ValueError("Invalid year")
+
             if count < 0:
                 raise ValueError("Invalid citation count")
 
@@ -72,8 +83,9 @@ def retrieve(queue):
         queue.put(("success", data))
 
     except Exception as exc:
-        print(f"Retrieval error: {exc}", flush=True)
-        queue.put(("error", str(exc)))
+        error = f"{type(exc).__name__}: {exc}"
+        print(f"Retrieval error: {error}", flush=True)
+        queue.put(("error", error))
 
 
 def main():
@@ -81,6 +93,7 @@ def main():
     print(f"Scholar ID: {SCHOLAR_ID}", flush=True)
 
     queue = mp.Queue()
+
     process = mp.Process(
         target=retrieve,
         args=(queue,)
@@ -93,32 +106,30 @@ def main():
 
     except Empty:
         print(
-            "TIMEOUT: Google Scholar did not respond "
-            f"within {TIMEOUT} seconds.",
+            f"TIMEOUT: No result within {TIMEOUT} seconds.",
             flush=True
         )
         print("Previous data preserved.", flush=True)
-
-        process.terminate()
-        process.join(timeout=5)
-
-        if process.is_alive():
-            process.kill()
-            process.join()
 
         raise SystemExit(1)
 
     finally:
         if process.is_alive():
             process.terminate()
+
         process.join(timeout=5)
+
+        if process.is_alive():
+            process.kill()
+            process.join()
+
         queue.close()
 
     if status != "success":
-        print("Update failed. Previous data preserved.")
+        print(f"Update failed: {result}", flush=True)
+        print("Previous data preserved.", flush=True)
         raise SystemExit(1)
 
-    # Atomic replacement: preserve old data on failure
     temp = DEST.with_suffix(".json.tmp")
 
     try:
@@ -127,6 +138,7 @@ def main():
             encoding="utf-8"
         )
         os.replace(temp, DEST)
+
     finally:
         if temp.exists():
             temp.unlink()
