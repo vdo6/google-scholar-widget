@@ -1,3 +1,4 @@
+
 name: Update Google Scholar statistics
 
 on:
@@ -11,16 +12,20 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: google-scholar-pages
+  cancel-in-progress: false
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    timeout-minutes: 25
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -31,22 +36,31 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Update Google Scholar data
-        timeout-minutes: 8
+        timeout-minutes: 12
         run: |
           for attempt in 1 2; do
             echo "Google Scholar attempt $attempt"
-            if python -u update_scholar.py; then
+
+            if timeout 300s python -u update_scholar.py; then
               exit 0
             fi
+
             if [ "$attempt" -eq 1 ]; then
               echo "Retrying in 30 seconds..."
               sleep 30
             fi
           done
           exit 1
+
       - name: Generate Google Scholar image
         run: python render_scholar.py
-     
+
+      - name: Verify generated files
+        run: |
+          test -s scholar_data.json
+          test -s scholar.png
+          test -s scholar-small.png
+
       - name: Commit updated data
         run: |
           git config user.name "github-actions[bot]"
@@ -64,11 +78,24 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
+          name: github-pages
           path: .
+          retention-days: 3
 
-      
+  deploy:
+    needs: refresh
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
       - name: Deploy Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages
